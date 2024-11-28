@@ -4,9 +4,6 @@ import numpy as np
 import cv2
 import uvicorn
 import torch
-import json
-import asyncio
-import websockets
 
 # Servidor (GPU PC)
 app = FastAPI()
@@ -27,8 +24,7 @@ async def websocket_endpoint(websocket: WebSocket):
             nparr = np.frombuffer(data, np.uint8)
             frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
             
-            # Puedes ajustar parámetros de inferencia si lo necesitas
-            results = model(frame, conf=0.6)  # Ajusta el umbral de confianza según necesites
+            results = model(frame, conf=0.6)
             
             annotated_frame = results[0].plot()
             cv2.imshow('Detecciones', annotated_frame)
