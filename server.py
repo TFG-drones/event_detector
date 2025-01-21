@@ -9,7 +9,7 @@ from uuid import uuid4
 # Servidor (GPU PC)
 app = FastAPI()
 
-model = YOLO('runs\\detect\\train3\\weights\\best.pt')
+model = YOLO('runs\\detect\\train_ed_v2\\weights\\best.pt')
 if torch.cuda.is_available():
     model = model.cuda()
     print("Usando GPU:", torch.cuda.get_device_name(0))
@@ -34,6 +34,10 @@ async def websocket_endpoint(websocket: WebSocket):
             print(detected_labels)
             if 'TestbedFire' in detected_labels:
                 response_message = 'fire'
+            elif 'TestbedFlood' in detected_labels:
+                response_message = 'flood'
+            elif 'TestbedCrowd' in detected_labels:
+                response_message = 'crowd'
             else:
                 response_message = 'ok'
             
